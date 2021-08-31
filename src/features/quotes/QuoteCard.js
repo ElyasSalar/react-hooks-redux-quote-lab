@@ -1,15 +1,31 @@
 import React from "react";
+import { useDispatch } from 'react-redux';
+import { removeQuote, upvoteQuote, downvoteQuote } from './quotesSlice';
 
-function QuoteCard(props) {
+function QuoteCard({ quote }) {
+  const dispatch = useDispatch();
+
+  function handleRemoveClick(){
+    dispatch(removeQuote(quote.id))
+  }
+
+  function handleUpvoteClick(){
+    dispatch(upvoteQuote(quote.id))
+  }
+
+  function handleDownvoteClick(){
+    dispatch(downvoteQuote(quote.id))
+  }
+
   return (
     <div>
       <div className="card card-inverse card-success card-primary mb-3 text-center">
         <div className="card-block">
           <blockquote className="card-blockquote">
-            <p>{/*Render Quote Content*/}</p>
+            <p>{quote.content}</p>
             <footer>
               - author{" "}
-              <cite title="Source Title">{/*Render Quote Author*/}</cite>
+              <cite title="Source Title">{quote.author}</cite>
             </footer>
           </blockquote>
         </div>
@@ -19,17 +35,17 @@ function QuoteCard(props) {
             role="group"
             aria-label="Basic example"
           >
-            <button type="button" className="btn btn-primary">
+            <button type="button" className="btn btn-primary" onClick={handleUpvoteClick}>
               Upvote
             </button>
-            <button type="button" className="btn btn-secondary">
+            <button type="button" className="btn btn-secondary" onClick={handleDownvoteClick}>
               Downvote
             </button>
-            <button type="button" className="btn btn-danger">
+            <button type="button" className="btn btn-danger" onClick={handleRemoveClick}>
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div>Votes: {/*Render Quote Votes*/}</div>
+          <div>Votes: {quote.votes}</div>
         </div>
       </div>
     </div>
